@@ -1,8 +1,3 @@
-#Stormpath is Joining Okta
-We are incredibly excited to announce that [Stormpath is joining forces with Okta](https://stormpath.com/blog/stormpaths-new-path?utm_source=github&utm_medium=readme&utm-campaign=okta-announcement). Please visit [the Migration FAQs](https://stormpath.com/oktaplusstormpath?utm_source=github&utm_medium=readme&utm-campaign=okta-announcement) for a detailed look at what this means for Stormpath users.
-
-We're available to answer all questions at [support@stormpath.com](mailto:support@stormpath.com).
-
 JWT Inspector
 =============
 
@@ -16,13 +11,14 @@ http://www.jwtinspector.io/
 Run the command below, then upload the file `./build/jwt-inspector.zip` to the Chrome Web Store.
 
 ```term
+$ npm install
 $ npm run build
 ```
 
 ## How to load in Chrome
 
 Open up Chrome and navigate to [the extensions page](chrome://extensions/).
-Click the [Load unpacked extension...] button and navigate to your project directory, and click [open].
+Enable developer mode, click the [Load unpacked extension...] button and navigate to your project directory, and click [open].
 
 ## How to develop
 
