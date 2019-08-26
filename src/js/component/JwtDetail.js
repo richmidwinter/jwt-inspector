@@ -16,7 +16,7 @@ export default class JwtDetail extends React.Component {
 
     if (this.props.showRaw){
       additionalContent.push(
-        <ExpandableSection name="JWT" value={jwt.raw} copyable={true} />
+        <ExpandableSection name="Encoded" value={jwt.raw} copyable={true} />
       );
     }
 
