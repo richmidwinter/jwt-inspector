@@ -1,6 +1,28 @@
 let jwtAnyExpression = /([a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+)/;
 let jwtExactExpression = /^[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+$/;
 
+let timestamps = ["exp", "nbf", "iat", "auth_time", "updated_at"];
+
+let descriptions = {
+  "alg": "Algorithm used for signing",
+  "aud": "Audience recipient claim",
+  "auth_time": "Time when authentication occurred",
+  "cty": "Content type header parameter",
+  "exp": "Expiration time claim, in seconds since epoch",
+  "nbf": "Not before, in seconds since epoch",
+  "iat": "Issued at claim, in seconds since epoch",
+  "iss": "Token issuer claim",
+  "jku": "JSON Web Key URL",
+  "jti": "JWT identifier claim",
+  "kid": "Key identifier",
+  "nbf": "Not before claim",
+  "sub": "Subject claim",
+  "typ": "Type of token (JWT)",
+  "updated_at": "Last update timestamp",
+  "x5t": "Base64 encoded SHA1 of the x509 certificate encryption key",
+  "zip": "Compression algorithm header"
+}
+
 export function endsWith(str, suffix) {
   return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
@@ -20,8 +42,19 @@ export function makeOrFilter(oldFilter, newFilter) {
 export function prettyPrintJson(value) {
   let result = [];
 
+  let prevKey;
+
   function pushPart(type, value) {
-    result.push(<span className={'token ' + type}>{value}</span>);
+    var title;
+    if ("object_key" === type && value in descriptions) {
+      title = descriptions[value]
+    } else if ("number" === type && timestamps.includes(prevKey)) {
+      title = new Date(Number(value)*1000).toString();
+    }
+    
+    result.push(<span className={'token ' + type}
+    title={title}
+    >{value}</span>);
   }
 
   function walk(item, level) {
@@ -64,6 +97,7 @@ export function prettyPrintJson(value) {
             }
 
             let value = item[key];
+            prevKey = key;
             pushPart('whitespace', " ".repeat(2 * (level + 1)));
             pushPart('object_key', key);
             pushPart('object_key_delim', ':');
