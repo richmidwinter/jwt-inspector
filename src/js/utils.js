@@ -1,5 +1,6 @@
 let jwtAnyExpression = /([a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+)/;
 let jwtExactExpression = /^[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+\.[a-zA-Z0-9+/\-_=]+$/;
+let urlExpression = /^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/g;
 
 let timestamps = ["exp", "nbf", "iat", "auth_time", "updated_at"];
 
@@ -51,10 +52,16 @@ export function prettyPrintJson(value) {
     } else if ("number" === type && timestamps.includes(prevKey)) {
       title = new Date(Number(value)*1000).toString();
     }
-    
-    result.push(<span className={'token ' + type}
-    title={title}
-    >{value}</span>);
+
+    if (type !== "string" || value.match(urlExpression) === null) {
+      result.push(<span className={'token ' + type}
+      title={title}
+      >{value}</span>);
+    } else {
+      result.push(<a href={value}><span className={'token ' + type}
+      title={title}
+      >{value}</span></a>);
+    }
   }
 
   function walk(item, level) {
