@@ -39,6 +39,3 @@ $ npm install
 $ open http://localhost:5000/ && node app.js
 ```
 
-## Copyright
-
-Copyright &copy; 2016 Stormpath, Inc. All rights reserved.
